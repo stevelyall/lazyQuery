@@ -1,8 +1,13 @@
+/*
+lazyQuery 1.0.0
+jQuery-like library
+ */
+
 $Z.version = '1.0.0';
 
 function $Z(param) {
     if (param == document) {
-        return new _ZDocument();
+        return new _ZDocument(document);
     }
     else if (typeof param == 'string') {
             return new _ZSelector(param);
@@ -18,6 +23,10 @@ function _ZDocument(document) {
     this.ready = function(callback) {
       window.addEventListener('load', callback);
     };
+
+    this.on = function(event, callback) {
+        document.addEventListener(event, callback);
+    }
 }
 
 function _ZElement(element) {
@@ -185,7 +194,8 @@ function _getCSSPropertyValue(element, property) {
 }
 
 function _setCSSPropertyOnElements(elements, property, value) {
-    if (elements.length == undefined) { // single element
+    console.log(elements);
+    if (elements.length == undefined || elements.length == null) { // single element
         elements.style[property] = value;
     }
     else {
